@@ -3,6 +3,9 @@ package br.com.alura.adopet.api.service;
 import br.com.alura.adopet.api.exception.ValidacaoException;
 import br.com.alura.adopet.api.model.Adocao;
 import br.com.alura.adopet.api.model.StatusAdocao;
+import br.com.alura.adopet.api.record.AprovacaoAdocaoDTO;
+import br.com.alura.adopet.api.record.ReprovacaoAdocaoDTO;
+import br.com.alura.adopet.api.record.SolicitacaoAdocaoDTO;
 import br.com.alura.adopet.api.repository.AdocaoRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +31,7 @@ public class AdocaoService {
 
 
 
-    public void solicitar(Adocao adocao) {
+    public void solicitar(SolicitacaoAdocaoDTO dto) {
         if (adocao.getPet().getAdotado() == true) {
             throw new ValidacaoException("Pet já foi adotado!");
         } else {
@@ -65,7 +68,7 @@ public class AdocaoService {
     }
 
 
-    public void aprovar(Adocao adocao) {
+    public void aprovar(AprovacaoAdocaoDTO dto) {
         adocao.setStatus(StatusAdocao.APROVADO);
         repository.save(adocao);
 
@@ -78,7 +81,7 @@ public class AdocaoService {
     }
 
 
-    public void reprovar(@RequestBody @Valid Adocao adocao) {
+    public void reprovar(@RequestBody @Valid ReprovacaoAdocaoDTO dto) {
         adocao.setStatus(StatusAdocao.REPROVADO);
         repository.save(adocao);
 
