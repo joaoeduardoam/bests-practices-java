@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-public class ValidacaoTutorLimiteAdocoes {
+public class ValidacaoTutorLimiteAdocoes implements ValidacaoSolicitacaoAdocao {
 
     @Autowired
     private AdocaoRepository adocaoRepository;
