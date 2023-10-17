@@ -15,6 +15,20 @@ public class Pet {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    public Pet(TipoPet tipo, String nome, String raca, Integer idade, String cor, Float peso, Abrigo abrigo) {
+        this.tipo = tipo;
+        this.nome = nome;
+        this.raca = raca;
+        this.idade = idade;
+        this.cor = cor;
+        this.peso = peso;
+        this.abrigo = abrigo;
+        this.adotado = false;
+    }
+
+    public Pet() {
+    }
+
     @Enumerated(EnumType.STRING)
     @NotNull
     private TipoPet tipo;
@@ -36,6 +50,7 @@ public class Pet {
 
     private Boolean adotado;
 
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     private Abrigo abrigo;
 

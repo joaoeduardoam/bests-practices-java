@@ -1,10 +1,12 @@
 package br.com.alura.adopet.api.controller;
 
+import br.com.alura.adopet.api.exception.ValidacaoException;
 import br.com.alura.adopet.api.model.Tutor;
 import br.com.alura.adopet.api.record.CadastrarTutorDTO;
 import br.com.alura.adopet.api.record.DadosAtualizacaoTutor;
 import br.com.alura.adopet.api.record.DadosDetalhesTutor;
 import br.com.alura.adopet.api.repository.TutorRepository;
+import br.com.alura.adopet.api.service.TutorService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,31 +18,31 @@ import org.springframework.web.bind.annotation.*;
 public class TutorController {
 
     @Autowired
-    private TutorRepository repository;
+    private TutorService tutorService;
 
     @PostMapping
     @Transactional
     public ResponseEntity<String> cadastrar(@RequestBody @Valid CadastrarTutorDTO dto) {
-        boolean telefoneJaCadastrado = repository.existsByTelefone(dto.telefone());
-        boolean emailJaCadastrado = repository.existsByEmail(dto.email());
-
-
-        if (telefoneJaCadastrado || emailJaCadastrado) {
-            return ResponseEntity.badRequest().body("Dados já cadastrados para outro tutor!");
-        } else {
-            Tutor tutor = new Tutor(dto.nome(), dto.telefone(), dto.email());
-            repository.save(tutor);
-            return ResponseEntity.ok().build();
+        try{
+            tutorService.cadastrar(dto);
+            return ResponseEntity.ok("Tutor cadastrado com sucesso!");
+        }catch (ValidacaoException e){
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
+
     }
 
     @PutMapping
     @Transactional
-    public ResponseEntity atualizar(@RequestBody @Valid DadosAtualizacaoTutor dto) {
+    public ResponseEntity<String> atualizar(@RequestBody @Valid DadosAtualizacaoTutor dto) {
 
-        var tutor = repository.getReferenceById(dto.id());
-        tutor.atualizarInformacoes(dto);
-        return ResponseEntity.ok(new DadosDetalhesTutor(tutor));
+        try{
+            tutorService.atualizarInformacoes(dto);
+            return ResponseEntity.ok("Tutor atualizado com sucesso!");
+        }catch (ValidacaoException e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+
     }
 
 }
