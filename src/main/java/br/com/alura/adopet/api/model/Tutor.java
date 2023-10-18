@@ -1,5 +1,6 @@
 package br.com.alura.adopet.api.model;
 
+import br.com.alura.adopet.api.record.CadastrarTutorDTO;
 import br.com.alura.adopet.api.record.DadosAtualizacaoTutor;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
@@ -7,6 +8,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -28,7 +30,13 @@ public class Tutor {
     @OneToMany(mappedBy = "tutor")
     private List<Adocao> adocoes;
 
-    public Tutor(String nome, String telefone, String email) {
+
+
+    public Tutor(CadastrarTutorDTO dto) {
+        this.nome = dto.nome();
+        this.email = dto.email();
+        this.telefone = dto.telefone();
+        this.adocoes = new ArrayList<>();
     }
 
     @Override

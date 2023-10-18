@@ -29,7 +29,7 @@ public class TutorService {
         if (telefoneJaCadastrado || emailJaCadastrado) {
             throw new ValidacaoException("Dados já cadastrados para outro tutor!");
         } else {
-            Tutor tutor = new Tutor(dto.nome(), dto.telefone(), dto.email());
+            Tutor tutor = new Tutor(dto);
             tutorRepository.save(tutor);
             return new DadosDetalhesTutor(tutor);
         }

@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
 @RequestMapping("/tutores")
@@ -22,10 +23,11 @@ public class TutorController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<String> cadastrar(@RequestBody @Valid CadastrarTutorDTO dto) {
+    public ResponseEntity cadastrar(@RequestBody @Valid CadastrarTutorDTO dto, UriComponentsBuilder uriBuilder) {
         try{
-            tutorService.cadastrar(dto);
-            return ResponseEntity.ok("Tutor cadastrado com sucesso!");
+            var detalhesTutor = tutorService.cadastrar(dto);
+            var uri = uriBuilder.path("tutores/{id}").buildAndExpand(detalhesTutor.id()).toUri();
+            return ResponseEntity.created(uri).body(detalhesTutor);
         }catch (ValidacaoException e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -34,11 +36,11 @@ public class TutorController {
 
     @PutMapping
     @Transactional
-    public ResponseEntity<String> atualizar(@RequestBody @Valid DadosAtualizacaoTutor dto) {
+    public ResponseEntity atualizar(@RequestBody @Valid DadosAtualizacaoTutor dto) {
 
         try{
-            tutorService.atualizarInformacoes(dto);
-            return ResponseEntity.ok("Tutor atualizado com sucesso!");
+            var tutorAtualizado = tutorService.atualizarInformacoes(dto);
+            return ResponseEntity.ok(tutorAtualizado);
         }catch (ValidacaoException e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
