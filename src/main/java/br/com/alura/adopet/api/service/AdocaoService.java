@@ -6,6 +6,7 @@ import br.com.alura.adopet.api.model.Pet;
 import br.com.alura.adopet.api.model.StatusAdocao;
 import br.com.alura.adopet.api.model.Tutor;
 import br.com.alura.adopet.api.record.AprovacaoAdocaoDTO;
+import br.com.alura.adopet.api.record.DadosDetalhesAdocao;
 import br.com.alura.adopet.api.record.ReprovacaoAdocaoDTO;
 import br.com.alura.adopet.api.record.SolicitacaoAdocaoDTO;
 import br.com.alura.adopet.api.repository.AdocaoRepository;
@@ -43,7 +44,7 @@ public class AdocaoService {
     private List<ValidacaoSolicitacaoAdocao> validacoes;
 
 
-    public void solicitar(SolicitacaoAdocaoDTO dto) {
+    public DadosDetalhesAdocao solicitar(SolicitacaoAdocaoDTO dto) {
         Pet pet = petRepository.getReferenceById(dto.idPet());
         Tutor tutor = tutorRepository.getReferenceById(dto.idTutor());
 
@@ -58,10 +59,13 @@ public class AdocaoService {
                 "Solicitação de adoção",
                 "Olá " +adocao.getPet().getAbrigo().getNome() +"!\n\nUma solicitação de adoção foi registrada hoje para o pet: " +adocao.getPet().getNome() +". \nFavor avaliar para aprovação ou reprovação.");
 
+        return new DadosDetalhesAdocao(adocao);
+
+
     }
 
 
-    public void aprovar(AprovacaoAdocaoDTO dto) {
+    public DadosDetalhesAdocao aprovar(AprovacaoAdocaoDTO dto) {
         Adocao adocao = adocaoRepository.getReferenceById(dto.idAdocao());
         adocao.marcarComoAprovado();
 
@@ -71,10 +75,11 @@ public class AdocaoService {
                 "Parabéns " +adocao.getTutor().getNome() +"!\n\nSua adoção do pet " +adocao.getPet().getNome() +", solicitada em " +adocao.getData().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")) +", foi aprovada.\nFavor entrar em contato com o abrigo " +adocao.getPet().getAbrigo().getNome() +" para agendar a busca do seu pet.");
 
 
+        return new DadosDetalhesAdocao(adocao);
     }
 
 
-    public void reprovar(@RequestBody @Valid ReprovacaoAdocaoDTO dto) {
+    public DadosDetalhesAdocao reprovar(@RequestBody @Valid ReprovacaoAdocaoDTO dto) {
         Adocao adocao = adocaoRepository.getReferenceById(dto.idAdocao());
         adocao.marcarComoReprovado(dto.justificativa());
 
@@ -84,5 +89,6 @@ public class AdocaoService {
                 "Olá " +adocao.getTutor().getNome() +"!\n\nInfelizmente sua adoção do pet " +adocao.getPet().getNome() +", solicitada em " +adocao.getData().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")) +", foi reprovada pelo abrigo " +adocao.getPet().getAbrigo().getNome() +" com a seguinte justificativa: " +adocao.getJustificativaStatus());
 
 
+        return new DadosDetalhesAdocao(adocao);
     }
 }

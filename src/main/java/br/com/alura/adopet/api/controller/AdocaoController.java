@@ -15,6 +15,7 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -30,10 +31,11 @@ public class AdocaoController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<String> solicitar(@RequestBody @Valid SolicitacaoAdocaoDTO dto) {
+    public ResponseEntity solicitar(@RequestBody @Valid SolicitacaoAdocaoDTO dto, UriComponentsBuilder uriBuilder) {
         try{
-            adocaoService.solicitar(dto);
-            return ResponseEntity.ok("Solicitação de adoção feita com sucesso!");
+            var adocaoSolicitada = adocaoService.solicitar(dto);
+            var uri = uriBuilder.path("/adocoes/{id}").buildAndExpand(adocaoSolicitada.id()).toUri();
+            return ResponseEntity.created(uri).body(adocaoSolicitada);
         }catch (ValidacaoException e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -42,16 +44,16 @@ public class AdocaoController {
 
     @PutMapping("/aprovar")
     @Transactional
-    public ResponseEntity<String> aprovar(@RequestBody @Valid AprovacaoAdocaoDTO dto) {
-        adocaoService.aprovar(dto);
-        return ResponseEntity.ok().build();
+    public ResponseEntity aprovar(@RequestBody @Valid AprovacaoAdocaoDTO dto) {
+        var adocaoAprovada = adocaoService.aprovar(dto);
+        return ResponseEntity.ok(adocaoAprovada);
     }
 
     @PutMapping("/reprovar")
     @Transactional
-    public ResponseEntity<String> reprovar(@RequestBody @Valid ReprovacaoAdocaoDTO dto) {
-        adocaoService.reprovar(dto);
-        return ResponseEntity.ok().build();
+    public ResponseEntity reprovar(@RequestBody @Valid ReprovacaoAdocaoDTO dto) {
+        var adocaoReprovada = adocaoService.reprovar(dto);
+        return ResponseEntity.ok(adocaoReprovada);
     }
 
 }
