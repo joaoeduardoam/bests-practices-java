@@ -39,6 +39,9 @@ public class Tutor {
         this.adocoes = new ArrayList<>();
     }
 
+    public Tutor() {
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

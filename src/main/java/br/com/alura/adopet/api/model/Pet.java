@@ -1,5 +1,7 @@
 package br.com.alura.adopet.api.model;
 
+import br.com.alura.adopet.api.record.CadastrarPetDTO;
+import br.com.alura.adopet.api.record.DadosDetalhesPet;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -15,14 +17,13 @@ public class Pet {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    public Pet(TipoPet tipo, String nome, String raca, Integer idade, String cor, Float peso, Abrigo abrigo) {
+    public Pet(CadastrarPetDTO dto) {
         this.tipo = tipo;
         this.nome = nome;
         this.raca = raca;
         this.idade = idade;
         this.cor = cor;
         this.peso = peso;
-        this.abrigo = abrigo;
         this.adotado = false;
     }
 

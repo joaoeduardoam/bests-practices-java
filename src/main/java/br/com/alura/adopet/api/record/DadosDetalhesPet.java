@@ -9,5 +9,6 @@ public record DadosDetalhesPet(Long id, TipoPet tipo, String nome, String raca, 
     public DadosDetalhesPet(Pet pet) {
         this(pet.getId(), pet.getTipo(), pet.getNome(), pet.getRaca(), pet.getIdade(), pet.getAdotado(), pet.getAbrigo());
     }
+
 }
 
