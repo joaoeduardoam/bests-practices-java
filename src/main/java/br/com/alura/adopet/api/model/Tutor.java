@@ -22,7 +22,6 @@ public class Tutor {
 
     private String nome;
 
-    @Pattern(regexp = "\\(?\\d{2}\\)?\\d?\\d{4}-?\\d{4}")
     private String telefone;
 
     private String email;

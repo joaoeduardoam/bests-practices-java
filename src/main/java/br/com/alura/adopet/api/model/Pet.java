@@ -31,27 +31,20 @@ public class Pet {
     }
 
     @Enumerated(EnumType.STRING)
-    @NotNull
     private TipoPet tipo;
 
-    @NotBlank
     private String nome;
 
-    @NotBlank
     private String raca;
 
-    @NotNull
     private Integer idade;
 
-    @NotBlank
     private String cor;
 
-    @NotNull
     private Float peso;
 
     private Boolean adotado;
 
-    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     private Abrigo abrigo;
 

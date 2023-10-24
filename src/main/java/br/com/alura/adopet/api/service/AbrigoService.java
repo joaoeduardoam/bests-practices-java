@@ -20,9 +20,6 @@ public class AbrigoService {
     private AbrigoRepository abrigoRepository;
 
     @Autowired
-    private TutorRepository tutorRepository;
-
-    @Autowired
     private PetRepository petRepository;
 
     @Autowired
@@ -41,11 +38,9 @@ public class AbrigoService {
     }
 
     public DadosDetalhesAbrigo cadastrar(CadastrarAbrigoDTO dto) {
-        boolean telefoneJaCadastrado = abrigoRepository.existsByTelefone(dto.telefone());
-        boolean emailJaCadastrado = abrigoRepository.existsByEmail(dto.email());
-        boolean nomeJaCadastrado = abrigoRepository.existsByNome(dto.nome());
+        boolean jaCadastrado = abrigoRepository.existsByTelefoneOrEmailOrNome(dto.telefone(),dto.email(),dto.nome());
 
-        if (telefoneJaCadastrado || emailJaCadastrado || nomeJaCadastrado) {
+        if (jaCadastrado) {
             throw new ValidacaoException("Dados já cadastrados para outro abrigo!");
         } else {
             Abrigo abrigo = new Abrigo(dto);

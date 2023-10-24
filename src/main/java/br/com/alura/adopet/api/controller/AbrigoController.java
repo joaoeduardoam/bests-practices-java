@@ -22,8 +22,6 @@ public class AbrigoController {
     @Autowired
     private AbrigoService abrigoService;
 
-    @Autowired
-    private AbrigoRepository abrigoRepository;
 
     @Autowired
     private PetService petService;
