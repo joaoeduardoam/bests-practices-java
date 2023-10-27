@@ -18,12 +18,12 @@ public class Pet {
     private Long id;
 
     public Pet(CadastrarPetDTO dto) {
-        this.tipo = tipo;
-        this.nome = nome;
-        this.raca = raca;
-        this.idade = idade;
-        this.cor = cor;
-        this.peso = peso;
+        this.tipo = dto.tipo();
+        this.nome = dto.nome();
+        this.raca = dto.raca();
+        this.idade = dto.idade();
+        this.cor = dto.cor();
+        this.peso = dto.peso();
         this.adotado = false;
     }
 
@@ -45,6 +45,7 @@ public class Pet {
 
     private Boolean adotado;
 
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     private Abrigo abrigo;
 

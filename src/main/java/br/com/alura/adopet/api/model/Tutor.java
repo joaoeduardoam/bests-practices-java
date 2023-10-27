@@ -35,7 +35,7 @@ public class Tutor {
         this.nome = dto.nome();
         this.email = dto.email();
         this.telefone = dto.telefone();
-        this.adocoes = new ArrayList<>();
+        //this.adocoes = new ArrayList<>();
     }
 
     public Tutor() {

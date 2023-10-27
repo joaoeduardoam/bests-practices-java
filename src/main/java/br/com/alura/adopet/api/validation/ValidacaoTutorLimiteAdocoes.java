@@ -8,9 +8,11 @@ import br.com.alura.adopet.api.record.SolicitacaoAdocaoDTO;
 import br.com.alura.adopet.api.repository.AdocaoRepository;
 import br.com.alura.adopet.api.repository.TutorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public class ValidacaoTutorLimiteAdocoes implements ValidacaoSolicitacaoAdocao {
 
     @Autowired

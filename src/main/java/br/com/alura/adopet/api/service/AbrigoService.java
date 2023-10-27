@@ -11,9 +11,11 @@ import br.com.alura.adopet.api.validation.ValidacaoSolicitacaoAdocao;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class AbrigoService {
 
     @Autowired

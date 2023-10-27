@@ -9,9 +9,11 @@ import br.com.alura.adopet.api.repository.AdocaoRepository;
 import br.com.alura.adopet.api.repository.PetRepository;
 import jdk.dynalink.linker.LinkerServices;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public class ValidacaoPetComAdocaoEmAndamento implements ValidacaoSolicitacaoAdocao{
 
     @Autowired
@@ -21,7 +23,7 @@ public class ValidacaoPetComAdocaoEmAndamento implements ValidacaoSolicitacaoAdo
     public void validar(SolicitacaoAdocaoDTO dto){
 
         boolean temAdocaoEmAndamento = adocaoRepository.existsByPetIdAndStatus(dto.idPet(), StatusAdocao.AGUARDANDO_AVALIACAO);
-
+        System.out.println("QQQQQQQQQQQQQQQQQQQQQQQQQQQ           "+temAdocaoEmAndamento);
         if (temAdocaoEmAndamento) {
             throw new ValidacaoException("Pet já está aguardando avaliação para ser adotado!");
         }

@@ -86,6 +86,7 @@ public class Adocao {
 
     public void marcarComoAprovado() {
         this.status = StatusAdocao.APROVADO;
+        this.pet.setAdotado(true);
     }
 
     public void marcarComoReprovado(String justificativa) {

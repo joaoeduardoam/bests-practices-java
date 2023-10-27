@@ -13,7 +13,5 @@ public record CadastrarPetDTO(
         @NotBlank String raca,
         @NotBlank String cor,
         @NotNull Integer idade,
-        @NotNull Float peso,
-
-        @NotNull Abrigo abrigo) {
+        @NotNull Float peso) {
 }

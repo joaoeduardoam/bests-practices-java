@@ -3,11 +3,10 @@ package br.com.alura.adopet.api.controller;
 import br.com.alura.adopet.api.exception.ValidacaoException;
 import br.com.alura.adopet.api.model.Adocao;
 import br.com.alura.adopet.api.model.StatusAdocao;
-import br.com.alura.adopet.api.record.AprovacaoAdocaoDTO;
-import br.com.alura.adopet.api.record.ReprovacaoAdocaoDTO;
-import br.com.alura.adopet.api.record.SolicitacaoAdocaoDTO;
+import br.com.alura.adopet.api.record.*;
 import br.com.alura.adopet.api.repository.AdocaoRepository;
 import br.com.alura.adopet.api.service.AdocaoService;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -36,24 +35,44 @@ public class AdocaoController {
             var adocaoSolicitada = adocaoService.solicitar(dto);
             var uri = uriBuilder.path("/adocoes/{id}").buildAndExpand(adocaoSolicitada.id()).toUri();
             return ResponseEntity.created(uri).body(adocaoSolicitada);
-        }catch (ValidacaoException e){
+        }catch (Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
 
     }
 
+    @GetMapping
+    public ResponseEntity<List<DadosDetalhesAdocao>> listar() {
+
+        var adocoes = adocaoService.listarAdocoes();
+
+        return ResponseEntity.ok(adocoes);
+    }
+
     @PutMapping("/aprovar")
     @Transactional
     public ResponseEntity aprovar(@RequestBody @Valid AprovacaoAdocaoDTO dto) {
+        try{
         var adocaoAprovada = adocaoService.aprovar(dto);
         return ResponseEntity.ok(adocaoAprovada);
+        }catch (EntityNotFoundException e){
+            return ResponseEntity.badRequest().body("Não foi encontrado adoção com os dados informados!");
+        }catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @PutMapping("/reprovar")
     @Transactional
     public ResponseEntity reprovar(@RequestBody @Valid ReprovacaoAdocaoDTO dto) {
-        var adocaoReprovada = adocaoService.reprovar(dto);
-        return ResponseEntity.ok(adocaoReprovada);
+        try{
+            var adocaoReprovada = adocaoService.reprovar(dto);
+            return ResponseEntity.ok(adocaoReprovada);
+        }catch (EntityNotFoundException e){
+            return ResponseEntity.badRequest().body("Não foi encontrado adoção com os dados informados!");
+        }catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
 }

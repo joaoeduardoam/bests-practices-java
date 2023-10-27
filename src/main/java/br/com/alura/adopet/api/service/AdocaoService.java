@@ -1,31 +1,24 @@
 package br.com.alura.adopet.api.service;
 
-import br.com.alura.adopet.api.exception.ValidacaoException;
+
 import br.com.alura.adopet.api.model.Adocao;
 import br.com.alura.adopet.api.model.Pet;
-import br.com.alura.adopet.api.model.StatusAdocao;
 import br.com.alura.adopet.api.model.Tutor;
-import br.com.alura.adopet.api.record.AprovacaoAdocaoDTO;
-import br.com.alura.adopet.api.record.DadosDetalhesAdocao;
-import br.com.alura.adopet.api.record.ReprovacaoAdocaoDTO;
-import br.com.alura.adopet.api.record.SolicitacaoAdocaoDTO;
+import br.com.alura.adopet.api.record.*;
 import br.com.alura.adopet.api.repository.AdocaoRepository;
 import br.com.alura.adopet.api.repository.PetRepository;
 import br.com.alura.adopet.api.repository.TutorRepository;
 import br.com.alura.adopet.api.validation.ValidacaoSolicitacaoAdocao;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import java.time.LocalDateTime;
+
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+@Service
 public class AdocaoService {
 
     @Autowired
@@ -47,9 +40,7 @@ public class AdocaoService {
     public DadosDetalhesAdocao solicitar(SolicitacaoAdocaoDTO dto) {
         Pet pet = petRepository.getReferenceById(dto.idPet());
         Tutor tutor = tutorRepository.getReferenceById(dto.idTutor());
-
         validacoes.forEach(v -> v.validar(dto));
-
         Adocao adocao = new Adocao(tutor, pet, dto.motivo());
 
         adocaoRepository.save(adocao);
@@ -64,8 +55,16 @@ public class AdocaoService {
 
     }
 
+    public List<DadosDetalhesAdocao> listarAdocoes() {
+
+        List<Adocao> adocoes = adocaoRepository.findAll();
+        List<DadosDetalhesAdocao> adocoesDTO = adocoes.stream().map(DadosDetalhesAdocao::new).toList();
+        return adocoesDTO;
+    }
+
 
     public DadosDetalhesAdocao aprovar(AprovacaoAdocaoDTO dto) {
+
         Adocao adocao = adocaoRepository.getReferenceById(dto.idAdocao());
         adocao.marcarComoAprovado();
 

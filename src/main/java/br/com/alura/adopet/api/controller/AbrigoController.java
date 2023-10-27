@@ -2,7 +2,6 @@ package br.com.alura.adopet.api.controller;
 
 import br.com.alura.adopet.api.exception.ValidacaoException;
 import br.com.alura.adopet.api.record.*;
-import br.com.alura.adopet.api.repository.AbrigoRepository;
 import br.com.alura.adopet.api.service.AbrigoService;
 import br.com.alura.adopet.api.service.PetService;
 import jakarta.persistence.EntityNotFoundException;
@@ -53,7 +52,9 @@ public class AbrigoController {
 
             return ResponseEntity.ok(pets);
 
-        }catch (ValidacaoException e){
+        }catch (EntityNotFoundException e){
+            return ResponseEntity.badRequest().body("Não foi encontrado abrigo com os dados informados!");
+        }catch (Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
 
@@ -69,7 +70,9 @@ public class AbrigoController {
             var uri = uriBuilder.path("/pets/{id}").buildAndExpand(detalhesPet.id()).toUri();
             return ResponseEntity.created(uri).body(detalhesPet);
 
-        } catch (EntityNotFoundException e) {
+        }catch (EntityNotFoundException e){
+            return ResponseEntity.badRequest().body("Não foi encontrado abrigo com os dados informados!");
+        }catch (Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }

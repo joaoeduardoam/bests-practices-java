@@ -9,6 +9,7 @@ import br.com.alura.adopet.api.record.DadosDetalhesPet;
 import br.com.alura.adopet.api.record.DadosDetalhesTutor;
 import br.com.alura.adopet.api.repository.PetRepository;
 import br.com.alura.adopet.api.repository.TutorRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -36,10 +37,21 @@ public class TutorService {
     }
 
     public DadosDetalhesTutor atualizarInformacoes(DadosAtualizacaoTutor dto) {
+        try {
 
         var tutor = tutorRepository.getReferenceById(dto.id());
         tutor.atualizarInformacoes(dto);
         return new DadosDetalhesTutor(tutor);
 
+        } catch (EntityNotFoundException enfe) {
+            throw new ValidacaoException("Não foi encontrado tutor com esses dados!");
+        }
+    }
+
+    public List<DadosDetalhesTutor> listarTutores() {
+
+        List<Tutor> tutores = tutorRepository.findAll();
+        List<DadosDetalhesTutor> tutoresDTO = tutores.stream().map(DadosDetalhesTutor::new).toList();
+        return tutoresDTO;
     }
 }
