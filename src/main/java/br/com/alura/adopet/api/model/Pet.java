@@ -17,13 +17,14 @@ public class Pet {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    public Pet(CadastrarPetDTO dto) {
+    public Pet(CadastrarPetDTO dto, Abrigo abrigo) {
         this.tipo = dto.tipo();
         this.nome = dto.nome();
         this.raca = dto.raca();
         this.idade = dto.idade();
         this.cor = dto.cor();
         this.peso = dto.peso();
+        this.abrigo = abrigo;
         this.adotado = false;
     }
 
