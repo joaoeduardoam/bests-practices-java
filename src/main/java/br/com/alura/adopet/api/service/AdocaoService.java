@@ -40,7 +40,9 @@ public class AdocaoService {
     public DadosDetalhesAdocao solicitar(SolicitacaoAdocaoDTO dto) {
         Pet pet = petRepository.getReferenceById(dto.idPet());
         Tutor tutor = tutorRepository.getReferenceById(dto.idTutor());
+
         validacoes.forEach(v -> v.validar(dto));
+
         Adocao adocao = new Adocao(tutor, pet, dto.motivo());
 
         adocaoRepository.save(adocao);
