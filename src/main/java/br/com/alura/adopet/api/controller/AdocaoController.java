@@ -75,4 +75,13 @@ public class AdocaoController {
         }
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity detalhar(@PathVariable Long id){
+
+        var adocao = adocaoService.getAdocaoById(id);
+
+        return ResponseEntity.ok(new DadosDetalhesAdocao(adocao));
+
+    }
+
 }

@@ -1,6 +1,8 @@
 package br.com.alura.adopet.api.service;
 
 
+import br.com.alura.adopet.api.exception.ValidacaoException;
+import br.com.alura.adopet.api.model.Abrigo;
 import br.com.alura.adopet.api.model.Adocao;
 import br.com.alura.adopet.api.model.Pet;
 import br.com.alura.adopet.api.model.Tutor;
@@ -9,6 +11,7 @@ import br.com.alura.adopet.api.repository.AdocaoRepository;
 import br.com.alura.adopet.api.repository.PetRepository;
 import br.com.alura.adopet.api.repository.TutorRepository;
 import br.com.alura.adopet.api.validation.ValidacaoSolicitacaoAdocao;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -91,5 +94,18 @@ public class AdocaoService {
 
 
         return new DadosDetalhesAdocao(adocao);
+    }
+
+    public Adocao getAdocaoById(Long id) {
+
+        try{
+            var adocao = adocaoRepository.getReferenceById(id);
+            return adocao;
+        } catch (
+                EntityNotFoundException enfe) {
+            throw new ValidacaoException("Não foi encontrado abrigo com esses dados!");
+        }
+
+
     }
 }
