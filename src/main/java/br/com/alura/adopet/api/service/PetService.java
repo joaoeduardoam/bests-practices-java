@@ -33,9 +33,8 @@ public class PetService {
 
     }
 
-    public DadosDetalhesPet cadastrarPet(String idOuNome, CadastrarPetDTO dto) {
+    public DadosDetalhesPet cadastrarPet(Abrigo abrigo, CadastrarPetDTO dto) {
 
-        Abrigo abrigo = abrigoService.getAbrigoByIdOuNome(idOuNome);
         Pet pet = new Pet(dto, abrigo);
         abrigo.getPets().add(pet);
         petRepository.save(pet);

@@ -68,7 +68,7 @@ class AdocaoControllerTest {
     }
 
     @Test
-    void deveriaDevolverCodigo200ParaSolicitacaoSemErros() throws Exception {
+    void deveriaDevolverCodigo201ParaSolicitacaoSemErros() throws Exception {
         //ARRANGE
         var dadosDetalhamentoAdocao = new DadosDetalhesAdocao(null, 3l , 2l, "Motivo qualquer", StatusAdocao.AGUARDANDO_AVALIACAO, null);
         given(adocaoService.solicitar(any())).willReturn(dadosDetalhamentoAdocao);

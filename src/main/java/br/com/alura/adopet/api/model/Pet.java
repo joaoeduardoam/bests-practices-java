@@ -2,6 +2,7 @@ package br.com.alura.adopet.api.model;
 
 import br.com.alura.adopet.api.record.CadastrarPetDTO;
 import br.com.alura.adopet.api.record.DadosDetalhesPet;
+import br.com.alura.adopet.api.record.DadosMinPet;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -30,6 +31,8 @@ public class Pet {
 
     public Pet() {
     }
+
+
 
     @Enumerated(EnumType.STRING)
     private TipoPet tipo;

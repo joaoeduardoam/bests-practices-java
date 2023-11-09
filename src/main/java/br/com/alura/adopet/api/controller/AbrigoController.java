@@ -43,12 +43,12 @@ public class AbrigoController {
 
     }
 
-    @GetMapping("/{idOuNome}/pets")
-    public ResponseEntity listarPets(@PathVariable String idOuNome) {
+    @GetMapping("/{idOuNomeAbrigo}/pets")
+    public ResponseEntity listarPets(@PathVariable String idOuNomeAbrigo) {
 
         try{
 
-            var pets = abrigoService.listarPets(idOuNome);
+            var pets = abrigoService.listarPets(idOuNomeAbrigo);
 
             return ResponseEntity.ok(pets);
 
@@ -60,12 +60,12 @@ public class AbrigoController {
 
     }
 
-    @PostMapping("/{idOuNome}/pets")
+    @PostMapping("/{idOuNomeAbrigo}/pets")
     @Transactional
-    public ResponseEntity cadastrarPet(@PathVariable String idOuNome, @RequestBody @Valid CadastrarPetDTO dto, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity cadastrarPet(@PathVariable String idOuNomeAbrigo, @RequestBody @Valid CadastrarPetDTO dto, UriComponentsBuilder uriBuilder) {
         try {
-
-            var detalhesPet = petService.cadastrarPet(idOuNome, dto);
+            var abrigo = abrigoService.getAbrigoByIdOuNome(idOuNomeAbrigo);
+            var detalhesPet = petService.cadastrarPet(abrigo, dto);
 
             var uri = uriBuilder.path("/pets/{id}").buildAndExpand(detalhesPet.id()).toUri();
             return ResponseEntity.created(uri).body(detalhesPet);
