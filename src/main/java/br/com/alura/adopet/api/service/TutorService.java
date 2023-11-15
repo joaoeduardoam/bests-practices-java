@@ -39,7 +39,7 @@ public class TutorService {
     public DadosDetalhesTutor atualizarInformacoes(DadosAtualizacaoTutor dto) {
         try {
 
-        var tutor = tutorRepository.getReferenceById(dto.id());
+        Tutor tutor = tutorRepository.getReferenceById(dto.id());
         tutor.atualizarInformacoes(dto);
         return new DadosDetalhesTutor(tutor);
 

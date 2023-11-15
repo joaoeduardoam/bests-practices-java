@@ -59,8 +59,7 @@ class AdocaoControllerTest {
                 post("/adocoes")
                         .content(json)
                         .contentType(MediaType.APPLICATION_JSON)
-
-        ).andReturn().getResponse();
+                        ).andReturn().getResponse();
 
         //ASSERT
         assertThat(response.getStatus()).isEqualTo(HttpStatus.BAD_REQUEST.value());
@@ -81,7 +80,7 @@ class AdocaoControllerTest {
                                 new SolicitacaoAdocaoDTO(3l,2l,"Motivo qualquer")
                         ).getJson())
                         .contentType(MediaType.APPLICATION_JSON)
-        ).andReturn().getResponse();
+                        ).andReturn().getResponse();
 
         //ASSERT
 

@@ -33,11 +33,6 @@ class PetControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @Mock
-    private Abrigo abrigo;
-
-    @Mock
-    private Pet pet;
 
     @MockBean
     private PetService petService;
