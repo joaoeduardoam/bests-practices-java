@@ -25,8 +25,11 @@ public class AbrigoController {
     @Autowired
     private PetService petService;
 
+
+
     @GetMapping
     public ResponseEntity<List<DadosDetalhesAbrigo>> listar() {
+
         return ResponseEntity.ok(abrigoService.listar());
     }
 
