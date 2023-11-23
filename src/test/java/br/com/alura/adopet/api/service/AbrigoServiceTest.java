@@ -64,11 +64,9 @@ class AbrigoServiceTest {
     @Test
     void deveriaRetornarTodosAbrigos(){
 
-        var abrigos = abrigoRepository.findAll().stream().map(DadosDetalhesAbrigo::new).toList();
+        abrigoService.listar();
 
-        var abrigosDTO = abrigoService.listar();
-
-        assertThat(abrigosDTO).isEqualTo(abrigos);
+        then(abrigoRepository).should().findAll();
 
     }
 
@@ -90,9 +88,24 @@ class AbrigoServiceTest {
         assertThat(pets.stream().map(DadosDetalhesPet::new).toList()).isEqualTo(listPetsService);
 
 
+
+
+
+
     }
 
 
 
 
 }
+
+
+
+
+
+
+
+
+
+
+
